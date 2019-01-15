@@ -15,14 +15,15 @@ This application will allow us to create, read update and delete records in an h
 ---------------------------------------------------------------------
 package io.pivotal.domain;
 
-@Data
+import javax.persistence.*;
+import java.io.Serializable;
+
 @Entity
 @Table(name="city")
 public class City implements Serializable {
-    private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
     @Column(nullable = false)
@@ -43,11 +44,18 @@ public class City implements Serializable {
     @Column
     private String longitude;
 
+    public long getId() { return id; }
+    public String getName() { return name; }
+    public String getCounty() { return county; }
+    public String getStateCode() { return stateCode; }
+    public String getPostalCode() { return postalCode; }
+    public String getLatitude() { return latitude; }
+    public String getLongitude() { return longitude; }
 }
-
 ---------------------------------------------------------------------
 +
-Notice that we're using http://docs.oracle.com/javaee/6/tutorial/doc/bnbpz.html[JPA] annotations on the class and its fields. We're also employing https://projectlombok.org/features/all[Lombok], so we don't have to write a bunch of boilerplate code (e.g., getter and setter methods).  You'll need to use your IDE's features to add the appropriate import statements.
+Notice that we're using http://docs.oracle.com/javaee/6/tutorial/doc/bnbpz.html[JPA] annotations on the class and its fields. 
+
 +
 -> Hint: imports should start with `javax.persistence` and `lombok`
 
@@ -76,7 +84,7 @@ compile('org.flywaydb:flyway-core:5.2.0')
 compile('com.zaxxer:HikariCP:3.2.0')
 ---------------------------------------------------------------------
 
-. Create a new file named +V1_0__init_database.sql+ underneath _devops-workshop/labs/my_work/cloud-native-spring/src/main/resources/db/migration_, add the following lines and save.
+. Create a new file named +V1_0__init_database.sql+ underneath _cloud-native-labs/my_work/cloud-native-spring/src/main/resources/db/migration_, add the following lines and save.
 +
 [source,bash]
 ---------------------------------------------------------------------
@@ -93,7 +101,7 @@ CREATE TABLE city (
 +
 Spring Boot comes with out-of-the-box https://docs.spring.io/spring-boot/docs/current/reference/html/howto-database-initialization.html#howto-execute-flyway-database-migrations-on-startup[integration] support for https://flywaydb.org/documentation/plugins/springboot[Flyway].  When we start the application it will execute a versioned https://flywaydb.org/documentation/migrations#sql-based-migrations[SQL migration] that will create a new table in the database.
 
-. Add the following lines to _devops-workshop/labs/my_work/cloud-native-spring/src/main/resources/application.yml_
+. Add the following lines to _cloud-native-labs/my_work/cloud-native-spring/src/main/resources/application.yml_
 +
 [source,bash]
 ---------------------------------------------------------------------
@@ -157,7 +165,7 @@ Next we'll import some data.
 
 == Importing Data
 
-. Copy the https://raw.githubusercontent.com/Pivotal-Field-Engineering/devops-workshop/master/labs/import.sql[import.sql] file found in *devops-workshop/labs/* to _devops-workshop/labs/my_work/cloud-native-spring/src/main/resources/db/migration_. Rename the file to be +V1_1__seed_data.sql+. (This is a small subset of a larger dataset containing all of the postal codes in the United States and its territories). 
+. Copy the https://raw.githubusercontent.com/bradfutch/cloud-native-labs/master/import.sql[import.sql] file found in *cloud-native-labs/* to _cloud-native-labs/my_work/cloud-native-spring/src/main/resources/db/migration_. Rename the file to be +V1_1__seed_data.sql+. (This is a small subset of a larger dataset containing all of the postal codes in the United States and its territories). 
 
 . Restart the application.
 +
@@ -398,6 +406,7 @@ applications:
   timeout: 180 # to give time for the data to import
   env:
     JAVA_OPTS: -Djava.security.egd=file:///dev/urandom
+    TRUST_CERTS: api.sys.escondido.cf-app.com
 ---------------------------------------------------------------------
 
 . Push to Cloud Foundry:
@@ -551,6 +560,7 @@ applications:
   timeout: 180 # to give time for the data to import
   env:
     JAVA_OPTS: -Djava.security.egd=file:///dev/urandom
+    TRUST_CERTS: api.sys.escondido.cf-app.com
   services:
     - mysql-database
 ---------------------------------------------------------------------

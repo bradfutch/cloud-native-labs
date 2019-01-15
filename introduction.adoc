@@ -24,7 +24,7 @@ This workshop assumes participants will be interacting with PCF One.  Depending 
 . Set the API target for the CLI (set appropriate end point for your environment) and login:
 +
 ----
-$ cf api https://api.run.pcfone.io
+$ cf api https://api.sys.escondido.cf-app.com
 $ cf login
 ----
 +
@@ -37,10 +37,10 @@ Enter your account username and password, then select an org and space.
 . Navigate in a web browser to (depending on environment):
 +
 ----
-https://apps.run.pcfone.io
+https://apps.sys.escondido.cf-app.com
 ----
 
-. Login to the interface with your email and password
+. Login to the interface with your username and password
 +
 -> The password will be supplied to you by the instructor
 

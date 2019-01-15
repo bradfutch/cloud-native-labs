@@ -1,6 +1,6 @@
 = Introduction to CF CLI
 
-- Change the working directory to be _devops-workshop/labs/samples_
+- Change the working directory to be _cloud-native-labs/samples_
 +
 Note the sub-directories present..
 +
@@ -25,7 +25,7 @@ samples
 *PWS*
 +
 ----
-$ cf api https://api.run.pivotal.io --skip-ssl-validation
+$ cf api https://api.sys.escondido.cf-app.com --skip-ssl-validation
 $ cf login
 ----
 +
