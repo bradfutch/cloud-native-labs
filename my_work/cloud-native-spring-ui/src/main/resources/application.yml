@@ -1,0 +1,30 @@
+spring:
+  main:
+    allow-bean-definition-overriding: true
+
+management:
+  endpoints:
+    web:
+      exposure: 
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+  info:
+    git:
+      mode: full
+
+info: # add this section
+  build:
+    name: @application.name@
+    description: @application.description@
+    version: @application.version@
+
+---
+spring:
+  profiles: cloud
+
+management:
+  cloudfoundry:
+    enabled: true
+    skip-ssl-validation: true

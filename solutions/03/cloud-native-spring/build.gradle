@@ -1,0 +1,95 @@
+buildscript {
+    ext {
+	   springBootVersion = '2.1.1.RELEASE'
+    }
+    repositories {
+        maven { url "https://plugins.gradle.org/m2/" }
+        maven { url "https://repo.spring.io/snapshot" }
+	    maven { url "https://repo.spring.io/milestone" }
+        mavenCentral()
+    }
+    dependencies {
+	    classpath("gradle.plugin.com.gorylenko.gradle-git-properties:gradle-git-properties:2.0.0-beta1")
+	    classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'maven-publish'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'com.gorylenko.gradle-git-properties'
+apply plugin: 'io.spring.dependency-management'
+
+gitProperties {
+    dateFormat = "yyyy-MM-dd'T'HH:mmZ"
+    dateFormatTimeZone = "UTC"
+    dotGitDirectory = "${project.rootDir}/../../../.."
+}
+
+import org.apache.tools.ant.filters.*
+
+processResources {
+    filter ReplaceTokens, tokens: [
+	    "application.name": project.property("application.name"),
+	    "application.description": project.property("application.description"),
+        "application.version": project.property("version")
+    ]
+}
+
+repositories {
+    maven { url "https://repo.spring.io/snapshot" }
+	maven { url "https://repo.spring.io/milestone" }
+    mavenCentral()
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: '*.jar')
+    compileOnly('org.projectlombok:lombok:1.18.4')
+    compile('javax.xml.bind:jaxb-api:2.4.0-b180725.0427')
+    compile('org.springframework.boot:spring-boot-starter-actuator')
+    compile('org.springframework.boot:spring-boot-starter-data-jpa')
+    compile('org.springframework.boot:spring-boot-starter-data-rest')
+    compile('org.springframework.boot:spring-boot-starter-hateoas')
+    compile('org.springframework.data:spring-data-rest-hal-browser')
+    compile('org.springframework.boot:spring-boot-starter-web')
+    compile('org.flywaydb:flyway-core:5.2.0')
+    compile('com.zaxxer:HikariCP:3.2.0')
+    runtime('com.h2database:h2')
+    runtime('mysql:mysql-connector-java:8.0.13')
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+}
+
+jar {
+    enabled = true
+    excludes = ['**/application.yml']
+}
+
+bootJar {
+    enabled = true
+    classifier = 'exec'
+}
+
+bootRun {
+    // support passing -Dsystem.property=value to bootRun task
+    systemProperties = System.properties
+}
+
+tasks.withType(Test) {
+    if (JavaVersion.current() != JavaVersion.VERSION_1_8) {
+        jvmArgs += ["--add-opens", "java.base/java.lang=ALL-UNNAMED"]
+    }
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+	    groupId 'io.pivotal'
+            from components.java
+        }
+    }
+    repositories {
+        mavenLocal()
+    }
+}
