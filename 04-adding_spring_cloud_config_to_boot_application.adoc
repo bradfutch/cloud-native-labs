@@ -60,7 +60,6 @@ dependencyManagement {
 }
 
 dependencies {
-    compileOnly('org.projectlombok:lombok:1.18.4')
     compile('javax.xml.bind:jaxb-api:2.4.0-b180725.0427')
     compile('org.springframework.boot:spring-boot-starter-actuator')
     compile('org.springframework.boot:spring-boot-starter-data-jpa')
@@ -280,6 +279,15 @@ applications:
     TRUST_CERTS: api.sys.escondido.cf-app.com
   services:
   - config-server
+---------------------------------------------------------------------
+
++
+The above manifest entries will work with Java Buildpack 4.x series and JDK 8.  If you built the app with JDK 11 and want to deploy it you will need to make an additional entry in your manifest, just below `JAVA_OPTS`, add
++
+[source,bash]
+---------------------------------------------------------------------
+---
+    JBP_CONFIG_OPEN_JDK_JRE: '{ jre: { version: 11.+ } }'
 ---------------------------------------------------------------------
 
 == Deploy and test application

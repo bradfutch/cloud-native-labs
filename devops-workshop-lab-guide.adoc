@@ -1,7 +1,7 @@
 :title: DevOps Workshop Lab Guide
-:author: Christopher Phillipson
-:email: cphillipson@pivotal.io
-:revnumber: 2.0
+:author: Christopher Phillipson / Brad Futch
+:email: cphillipson@pivotal.io / bfutch@pivotal.io
+:revnumber: 2.1
 :revdate: {docdate}
 :revyear: 2018
 :subject: DevOps Workshop
