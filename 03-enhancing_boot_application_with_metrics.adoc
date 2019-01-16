@@ -118,7 +118,6 @@ gitProperties {
 ---------------------------------------------------------------------
 application.name = 'Cloud Native Spring'
 application.description = 'A cloud native spring boot application for fun'
-application.version = '1.0-SNAPSHOT'
 ---------------------------------------------------------------------
 
 +
@@ -166,7 +165,7 @@ info: # add this section
   build:
     name: @application.name@
     description: @application.description@
-    version: @application.version@
+    version: @version@
 ---------------------------------------------------------------------
 +
 Note we're defining token delimited value-placeholders for each property.  In order to have these properties replaced, we'll need to add some further instructions to the _build.gradle_ file.
@@ -183,7 +182,7 @@ processResources {
     filter ReplaceTokens, tokens: [
         "application.name": project.property("application.name"),
         "application.description": project.property("application.description"),
-        "application.version": project.property("version")
+        "version": project.property("version")
     ]
 }
 ---------------------------------------------------------------------
