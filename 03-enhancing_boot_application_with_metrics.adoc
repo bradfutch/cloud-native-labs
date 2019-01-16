@@ -111,6 +111,16 @@ gitProperties {
     dotGitDirectory = "${project.rootDir}/../../.."
 }
 ---------------------------------------------------------------------
+
+. Also you need to edit the _gradle.properties_ file and add the following lines :
+
+[source, bash]
+---------------------------------------------------------------------
+application.name = 'Cloud Native Spring'
+application.description = 'A cloud native spring boot application for fun'
+application.version = '1.0-SNAPSHOT'
+---------------------------------------------------------------------
+
 +
 -> Note too that we are updating the path to the _.git_ directory.
 +
