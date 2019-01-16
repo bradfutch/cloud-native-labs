@@ -71,7 +71,7 @@ If you are having trouble resolving artifacts, you are likely running in a https
 
 . And for our final trick, how about deploying a Cold Fusion app?
 +
-  cd.. coldfusion-example
+  cd ../coldfusion-example
 +
 Grab this https://storage.googleapis.com/cphillipson-workshops/devops-workshop/devops-workshop-cfmagic.zip[file], unpack into `src/main/webapp` folder with
 +
